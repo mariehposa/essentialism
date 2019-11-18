@@ -3,7 +3,7 @@ const db = require('../database/dbConfig');
 function getUserBy(userValue) {
     return db('users as u')
     .where(userValue)
-    .select('username', 'email')
+    // .select('id', 'username', 'email')
     .first()
 }
 

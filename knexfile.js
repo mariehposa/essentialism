@@ -31,7 +31,17 @@ module.exports = {
   },
 
   production: {
-   
+    client: 'sqlite3',
+    useNullAsDefault: true,
+    connection: {
+      filename: './database/essentialism.db3'
+    },
+    migrations: {
+      directory: './database/migrations'
+    },
+    seeds: {
+      directory: './database/seeds'
+    },
   }
 
 };

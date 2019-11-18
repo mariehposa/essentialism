@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "server": "nodemon index.js",
+    "start": "node index.js",
     "test": "cross-env DB_ENV=testing jest --watchAll"
   },
   "repository": "https://github.com/essentialism-11-2019/mariam-server.git",

@@ -12,7 +12,7 @@ server.use(cors())
 
 server.use('/api/auth', authRouter)
 // server.use('/api/project', projectsRouter)
-// server.use('/api/value', valuesRouter)
+server.use('/api/value', valuesRouter)
 
 server.get('/', (req, res) => {
     res.json({message: 'Its working!'})

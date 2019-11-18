@@ -1,8 +1,9 @@
 const express = require('express');
 const db = require('./valuesModel')
 const router = express.Router()
+const restricted = require('../auth/restricted-middleware')
 
-router.get('/', (req, res) => {
+router.get('/', restricted, (req, res) => {
     db.getValues()
     .then(values => {
         res.status(200).json(values)

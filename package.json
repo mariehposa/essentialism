@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "backend for essentialism",
   "main": "index.js",
+  "scripts": {
+    "server": "nodemon index.js",
+    "test": "cross-env DB_ENV=testing jest --watchAll"
+  },
   "repository": "https://github.com/essentialism-11-2019/mariam-server.git",
   "author": "Adedeji Mariam <maadedeji76@student.lautech.edu.ng>",
   "license": "MIT",
@@ -13,6 +17,7 @@
     "sqlite3": "^4.1.0"
   },
   "devDependencies": {
-    "eslint": "^6.6.0"
+    "eslint": "^6.6.0",
+    "nodemon": "^1.19.4"
   }
 }

@@ -58,5 +58,18 @@ router.put('/:id/projects/:project_id', (req, res) => {
     });
 })
 
+router.delete('/:id/projects/:project_id', (req, res) => {
+    const { id, project_id } = req.params;
+
+    db.removeProject(id, project_id)
+    .then(project => {
+        res.status(200).json(project)
+    })
+    .catch(error => {
+        res.status(500).json({
+            message: `An error occured! ${error.message}`
+        })
+    })
+})
 
 module.exports = router

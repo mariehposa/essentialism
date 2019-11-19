@@ -25,8 +25,9 @@ function updateProject(projectId, data) {
     // .where(([user_id, id]) => this.getProjectId(user_id, id))
 }
 
-function removeProject(projectId) {
+function removeProject(userId, projectId) {
     return db('projects as p')
+    .where('p.user_id', userId)
     .where('p.id', projectId)
     .del()
 }
@@ -36,4 +37,5 @@ module.exports = {
     getUserProjects,
     addProject,
     updateProject,
+    removeProject
 }

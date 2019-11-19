@@ -18,8 +18,16 @@ function addProject(data) {
     // .where(([user_id, id]) => this.getProjectId(user_id, id))
 }
 
+function updateProject(projectId, data) {
+    return db('projects as p')
+    .where('p.id', projectId)
+    .update(data)
+    // .where(([user_id, id]) => this.getProjectId(user_id, id))
+}
+
 module.exports = {
     getProjectId,
     getUserProjects,
-    addProject
+    addProject,
+    updateProject,
 }

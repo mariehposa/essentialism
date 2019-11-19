@@ -4,7 +4,7 @@ const router = express.Router()
 const restricted = require('../auth/restricted-middleware')
 
 router.get('/:id/projects/:project_id', validateUserId, validateProjectId, (req, res) => {
-    db.getProjectId(req.user.id, req.project.id)
+    db.getProjectId(req.params.id, req.params.project_id)
     .then(project => {
         res.status(200).json(project)
     })
@@ -16,7 +16,7 @@ router.get('/:id/projects/:project_id', validateUserId, validateProjectId, (req,
 })
 
 router.get('/:id/projects', validateUserId, (req, res) => {
-    db.getUserProjects(req.user.id)
+    db.getUserProjects(req.params.id)
     .then(projects => {
         res.status(200).json(projects)
     })

@@ -30,18 +30,18 @@ router.get('/:id/projects', (req, res) => {
     })
 })
 
-// router.post('/:id/projects', (req, res) => {
-//     const { id } = req.params;
-//     const newData = req.body;
-//     newData.user_id = id
+router.post('/:id/projects', (req, res) => {
+    const { id } = req.params;
+    const newData = req.body;
+    newData.user_id = id
 
-//     db.addProject(newData)
-//     .then(data => {
-//         res.status(201).json(data)
-//     })
-//     .catch (error => {
-//         res.status(500).json({ message: 'Failed to create new task' + error.message });
-//     });
-// })
+    db.addProject(newData)
+    .then(data => {
+        res.status(201).json(data)
+    })
+    .catch (error => {
+        res.status(500).json({ message: 'Failed to create new task' + error.message });
+    });
+})
 
 module.exports = router

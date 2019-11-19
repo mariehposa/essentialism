@@ -3,8 +3,8 @@ const db = require('./usersModel')
 const router = express.Router()
 const restricted = require('../auth/restricted-middleware')
 
-router.get('/:id/projects/:project_id', validateUserId, validateProjectId, (req, res) => {
-    db.getProjectId(req.params.id, req.params.project_id)
+router.get('/:id/projects/:project_id', restricted, validateUserId, validateProjectId, (req, res) => {
+    db.getProjectId(req.valUser.id, req.valProject.id)
     .then(project => {
         res.status(200).json(project)
     })
@@ -15,8 +15,8 @@ router.get('/:id/projects/:project_id', validateUserId, validateProjectId, (req,
     })
 })
 
-router.get('/:id/projects', validateUserId, (req, res) => {
-    db.getUserProjects(req.params.id)
+router.get('/:id/projects', restricted, validateUserId, (req, res) => {
+    db.getUserProjects(req.valUser.id)
     .then(projects => {
         res.status(200).json(projects)
     })
@@ -27,9 +27,9 @@ router.get('/:id/projects', validateUserId, (req, res) => {
     })
 })
 
-router.post('/:id/projects', validateUserId, validateBody, (req, res) => {
+router.post('/:id/projects', restricted, validateUserId, validateBody, (req, res) => {
     const newData = req.body;
-    newData.user_id = req.params.id
+    newData.user_id = req.valUser.id
 
     db.addProject(newData)
     .then(data => {
@@ -40,11 +40,11 @@ router.post('/:id/projects', validateUserId, validateBody, (req, res) => {
     });
 })
 
-router.put('/:id/projects/:project_id', validateUserId, validateProjectId, validateBody, (req, res) => {
+router.put('/:id/projects/:project_id', restricted, validateUserId, validateProjectId, validateBody, (req, res) => {
     const editData = req.body;
-    editData.user_id = req.user.id;
+    editData.user_id = req.valUser.id;
 
-    db.updateProject(req.project.id, editData)
+    db.updateProject(req.valProject.id, editData)
     .then(project => {
         res.status(201).json(project)
     })
@@ -53,8 +53,8 @@ router.put('/:id/projects/:project_id', validateUserId, validateProjectId, valid
     });
 })
 
-router.delete('/:id/projects/:project_id', validateUserId, validateProjectId, (req, res) => {
-    db.removeProject(req.user.id, req.project.id)
+router.delete('/:id/projects/:project_id', restricted, validateUserId, validateProjectId, (req, res) => {
+    db.removeProject(req.valUser.id, req.valProject.id)
     .then(project => {
         res.status(200).json(project)
     })
@@ -66,12 +66,12 @@ router.delete('/:id/projects/:project_id', validateUserId, validateProjectId, (r
 })
 
 function validateProjectId (req, res, next) {
-    const { id } = req.params;
+    const { project_id } = req.params;
 
-    db.projectId(id)
+    db.projectId(project_id)
     .then(project => {
         if(project) {
-            req.project = project
+            req.valProject = project
             next()
         } else {
             res.status(400).json({
@@ -92,7 +92,7 @@ function validateUserId (req, res, next) {
     db.userId(id)
     .then(user => {
         if(user) {
-            req.user = user
+            req.valUser = user
             next()
         } else {
             res.status(400).json({

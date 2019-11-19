@@ -29,7 +29,7 @@ router.get('/:id/projects', validateUserId, (req, res) => {
 
 router.post('/:id/projects', validateUserId, validateBody, (req, res) => {
     const newData = req.body;
-    newData.user_id = req.user.id
+    newData.user_id = req.params.id
 
     db.addProject(newData)
     .then(data => {

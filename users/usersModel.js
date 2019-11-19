@@ -1,9 +1,9 @@
 const db = require('../database/dbConfig');
 
-function getProjectId(userId, projectId) {
+function getProjectId(user_id, project_id) {
     return db('projects as p')
-    .where('p.user_id', userId)
-    .where('p.id', projectId)
+    .where('p.user_id', user_id)
+    .where('p.id', project_id)
     .first()
 }
 
@@ -18,18 +18,30 @@ function addProject(data) {
     // .where(([user_id, id]) => this.getProjectId(user_id, id))
 }
 
-function updateProject(projectId, data) {
+function updateProject(project_id, data) {
     return db('projects as p')
-    .where('p.id', projectId)
+    .where('p.id', project_id)
     .update(data)
     // .where(([user_id, id]) => this.getProjectId(user_id, id))
 }
 
-function removeProject(userId, projectId) {
+function removeProject(user_id, project_id) {
     return db('projects as p')
-    .where('p.user_id', userId)
-    .where('p.id', projectId)
+    .where('p.user_id', user_id)
+    .where('p.id', project_id)
     .del()
+}
+
+function userId (id) {
+    return db('users as u')
+    .where('u.id', id)
+    .first()
+}
+
+function projectId (id) {
+    return db('projects as p')
+    .where('p.id', id)
+    .first()
 }
 
 module.exports = {
@@ -37,5 +49,7 @@ module.exports = {
     getUserProjects,
     addProject,
     updateProject,
-    removeProject
+    removeProject,
+    userId,
+    projectId
 }

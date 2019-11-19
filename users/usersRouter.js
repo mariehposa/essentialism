@@ -3,9 +3,8 @@ const db = require('./usersModel')
 const router = express.Router()
 const restricted = require('../auth/restricted-middleware')
 
-router.get('/:user_id/projects/:project_id', (req, res) => {
-    const { user_id, project_id } = req.params;
-    db.getProjectId(user_id, project_id)
+router.get('/:id/projects/:project_id', validateUserId, validateProjectId, (req, res) => {
+    db.getProjectId(req.user.id, req.project.id)
     .then(project => {
         res.status(200).json(project)
     })
@@ -16,10 +15,8 @@ router.get('/:user_id/projects/:project_id', (req, res) => {
     })
 })
 
-router.get('/:id/projects', (req, res) => {
-    const { id } = req.params
-
-    db.getUserProjects(id)
+router.get('/:id/projects', validateUserId, (req, res) => {
+    db.getUserProjects(req.user.id)
     .then(projects => {
         res.status(200).json(projects)
     })
@@ -30,10 +27,9 @@ router.get('/:id/projects', (req, res) => {
     })
 })
 
-router.post('/:id/projects', (req, res) => {
-    const { id } = req.params;
+router.post('/:id/projects', validateUserId, validateBody, (req, res) => {
     const newData = req.body;
-    newData.user_id = id
+    newData.user_id = req.user.id
 
     db.addProject(newData)
     .then(data => {
@@ -44,12 +40,11 @@ router.post('/:id/projects', (req, res) => {
     });
 })
 
-router.put('/:id/projects/:project_id', (req, res) => {
-    const {id, project_id} = req.params;
+router.put('/:id/projects/:project_id', validateUserId, validateProjectId, validateBody, (req, res) => {
     const editData = req.body;
-    editData.user_id = id;
+    editData.user_id = req.user.id;
 
-    db.updateProject(project_id, editData)
+    db.updateProject(req.project.id, editData)
     .then(project => {
         res.status(201).json(project)
     })
@@ -58,10 +53,8 @@ router.put('/:id/projects/:project_id', (req, res) => {
     });
 })
 
-router.delete('/:id/projects/:project_id', (req, res) => {
-    const { id, project_id } = req.params;
-
-    db.removeProject(id, project_id)
+router.delete('/:id/projects/:project_id', validateUserId, validateProjectId, (req, res) => {
+    db.removeProject(req.user.id, req.project.id)
     .then(project => {
         res.status(200).json(project)
     })
@@ -71,5 +64,63 @@ router.delete('/:id/projects/:project_id', (req, res) => {
         })
     })
 })
+
+function validateProjectId (req, res, next) {
+    const { id } = req.params;
+
+    db.projectId(id)
+    .then(project => {
+        if(project) {
+            req.project = project
+            next()
+        } else {
+            res.status(400).json({
+                message: 'Invalid project id'
+            })
+        }
+    })
+    .catch(error => {
+        res.status(404).json({
+            message: "id not found" + error.message
+        })
+    })
+}
+
+function validateUserId (req, res, next) {
+    const { id } = req.params;
+
+    db.userId(id)
+    .then(user => {
+        if(user) {
+            req.user = user
+            next()
+        } else {
+            res.status(400).json({
+                message: 'Invalid user id'
+            })
+        }
+    })
+    .catch(error => {
+        res.status(404).json({
+            message: "id not found" + error.message
+        })
+    })
+}
+
+function validateBody (req, res, next) {
+    if(Object.keys(req.body).length) {
+        if(req.body.project_name) {
+            next()
+        } else {
+            res.status(400).json({
+                message: "missing required field"
+            })
+        }
+    } else {
+        res.status(400).json({
+            message: "missing required data"
+        })
+    }
+}
 
 module.exports = router

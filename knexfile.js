@@ -31,11 +31,8 @@ module.exports = {
   },
 
   production: {
-    client: 'sqlite3',
-    useNullAsDefault: true,
-    connection: {
-      filename: './database/essentialism.db3'
-    },
+    client: 'pg',
+    connection: 'process.env.DATABASE_URL',
     migrations: {
       directory: './database/migrations'
     },

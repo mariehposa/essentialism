@@ -9,7 +9,20 @@ function getValuesId (id) {
     .where('v.id', id)
 }
 
+function addTopThree(top3){
+    return db('top_three')
+    .insert(top3, 'id')
+}
+
+function getTopThree(){
+    return db('top_three')
+    .limit(3)
+    .orderBy('created_at', 'desc')
+}
+
 module.exports = {
     getValues,
-    getValuesId
+    getValuesId,
+    addTopThree,
+    getTopThree,
 }

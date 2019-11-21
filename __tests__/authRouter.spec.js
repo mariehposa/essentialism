@@ -40,4 +40,16 @@ describe("api/auth/* endpoints", () => {
       expect(response.status).toBe(201);
     });
   });
+
+  describe('[POST] /api/auth', () => {
+      test('should return 200 OK', async () => {
+          const response = await request(server).post('/api/auth/login').send(testUserLogin)
+          expect(response.status).toBe(200)
+      })
+
+      test('should return a token', async () => {
+        const response = await request(server).post('/api/auth/login').send(testUserLogin)
+        expect(response.body.token).not.toBe(undefined)
+    })
+  })
 });

@@ -29,4 +29,29 @@ router.get('/:id', (req, res) => {
     })
 })
 
+router.post('/top', restricted, (req, res) => {
+    const user_id = req.decodedToken.subject
+    const value_id = req.body.value_id
+
+    db.addTopThree({user_id, value_id})
+    .then(flag => {
+        if(flag) {
+            res.status(200).json({message: `Added value to top three`})
+        }
+    })
+    .catch(err => res.status(500).json({message: `Failed to add value to top three: ${err.message}`}))
+})
+
+router.patch('/top', restricted, (req, res) => {
+    const user_id = req.decodedToken.subject
+
+    // res.send(200).json(user_id)
+
+    db.getTopThree({ user_id })
+    .then(top3 => {
+        res.status(200).json(top3)
+    })
+    .catch(err => res.status(500).json({message: `Failed: ${err.message}`}))
+})
+
 module.exports = router;

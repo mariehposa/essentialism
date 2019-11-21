@@ -14,8 +14,9 @@ function addTopThree(top3){
     .insert(top3, 'id')
 }
 
-function getTopThree(){
+function getTopThree(filter){
     return db('top_three')
+    .where(filter)
     .limit(3)
     .orderBy('created_at', 'desc')
 }

@@ -16,13 +16,13 @@ const testUserLogin = {
   password: "test"
 };
 
-const testValue = { value_name: 'aValue'}
+const testValue = { value_name: "aValue" };
 
 beforeAll(async () => {
   await db("users").truncate();
   await db("values").truncate();
 
-  await db('values').insert(testValue)
+  await db("values").insert(testValue);
 
   await request(server)
     .post("/api/auth/register")
@@ -67,27 +67,26 @@ describe("Values Route", () => {
     });
   });
 
-  describe('[POST] /', () => {
+  describe("[POST] /", () => {
     test("returns 201 0K", async () => {
       const value = {
-        'value_id' : '1'
-      }
+        value_id: "1"
+      };
       const res = await request(server)
-      .post('/api/value/1/top3')
-      .send(value)
-      .set({ authorization: token });
-      console.log(res.body)
-      expect(res.status).toBe(201)
-    })
-  })
+        .post("/api/value/1/top3")
+        .send(value)
+        .set({ authorization: token });
+      console.log(res.body);
+      expect(res.status).toBe(201);
+    });
+  });
 
-  describe('[GET] /', () => {
-    test('should return 200 0K', async () => {
+  describe("[GET] /", () => {
+    test("should return 200 0K", async () => {
       const res = await request(server)
-      .get('/api/value/1/top3')
-      .set({ authorization: token })
-      expect(res.status).toBe(200)
-    })
-  })
-
+        .get("/api/value/1/top3")
+        .set({ authorization: token });
+      expect(res.status).toBe(200);
+    });
+  });
 });

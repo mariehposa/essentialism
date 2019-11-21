@@ -12,8 +12,8 @@ const addUser = {
 };
 
 const testUserLogin = {
-    username: "test",
-    password: "test"
+  username: "test",
+  password: "test"
 };
 
 beforeAll(async () => {
@@ -28,7 +28,7 @@ beforeAll(async () => {
     .send(testUserLogin);
 
   token = res.body.token;
-//   console.log(token);
+  //   console.log(token);
 });
 
 describe("api/auth/* endpoints", () => {
@@ -41,15 +41,19 @@ describe("api/auth/* endpoints", () => {
     });
   });
 
-  describe('[POST] /api/auth', () => {
-      test('should return 200 OK', async () => {
-          const response = await request(server).post('/api/auth/login').send(testUserLogin)
-          expect(response.status).toBe(200)
-      })
+  describe("[POST] /api/auth", () => {
+    test("should return 200 OK", async () => {
+      const response = await request(server)
+        .post("/api/auth/login")
+        .send(testUserLogin);
+      expect(response.status).toBe(200);
+    });
 
-      test('should return a token', async () => {
-        const response = await request(server).post('/api/auth/login').send(testUserLogin)
-        expect(response.body.token).not.toBe(undefined)
-    })
-  })
+    test("should return a token", async () => {
+      const response = await request(server)
+        .post("/api/auth/login")
+        .send(testUserLogin);
+      expect(response.body.token).not.toBe(undefined);
+    });
+  });
 });

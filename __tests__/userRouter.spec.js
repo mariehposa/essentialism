@@ -77,4 +77,17 @@ describe("Users Route", () => {
             expect(res.status).toBe(200);
         })
     })
+
+    describe('[PUT] /', () => {
+        test('should return 201 Created', async () => {
+            const project = {
+                project_name: "physics"
+            }
+          const res = await request(server)
+            .put("/api/user/1/projects/1")
+            .send(project)
+            .set({ authorization: token });
+          expect(res.status).toBe(201);
+        })
+    })
 });

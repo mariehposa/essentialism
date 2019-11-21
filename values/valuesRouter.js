@@ -36,7 +36,7 @@ router.post('/:id/top3', restricted, (req, res) => {
     db.addTopThree({user_id, value_id})
     .then(flag => {
         if(flag) {
-            res.status(200).json({message: `Added value to top three`})
+            res.status(201).json({message: `Added value to top three`})
         }
     })
     .catch(err => res.status(500).json({message: `Failed to add value to top three: ${err.message}`, data: err, params: {user_id, value_id}}))

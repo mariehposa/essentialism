@@ -17,6 +17,7 @@ const testUserLogin = {
 };
 
 beforeAll(async () => {
+  await db("projects").truncate();
   await db("users").truncate();
 
   const a = await request(server)

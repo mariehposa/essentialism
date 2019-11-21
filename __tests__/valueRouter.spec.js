@@ -19,6 +19,7 @@ const testUserLogin = {
 const testValue = { value_name: "aValue" };
 
 beforeAll(async () => {
+  await db("projects").truncate();
   await db("users").truncate();
   await db("values").truncate();
 

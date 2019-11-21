@@ -54,7 +54,7 @@ function generateToken (user) {
     }
     const result = jwt.sign(
         payload, 
-        process.env.SECRET || 'teting test',
+        process.env.SECRET || 'testing test',
         options
     )
     return result;

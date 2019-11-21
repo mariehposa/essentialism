@@ -6,11 +6,11 @@ function restricted (req, res, next) {
     if (token) {
         jwt.verify(
             token,
-            process.env.SECRET,
+            process.env.SECRET || 'testing test' ,
             (error, decodedToken) => {
                 if (error) {
                     res.status(401).json({
-                        message: 'Unathorized User' + error.message
+                        message: 'Unauthorized User: ' + error.message
                     })
                 } else {
                     req.decodedToken = decodedToken

@@ -6,7 +6,7 @@
   "scripts": {
     "server": "nodemon index.js",
     "start": "node index.js",
-    "test": "cross-env DB_ENV=testing jest --watchAll"
+    "test": "cross-env NODE_ENV=testing jest --watchAll"
   },
   "repository": "https://github.com/essentialism-11-2019/mariam-server.git",
   "author": "Adedeji Mariam <maadedeji76@student.lautech.edu.ng>",
@@ -25,7 +25,10 @@
     "sqlite3": "^4.1.0"
   },
   "devDependencies": {
+    "cross-env": "^6.0.3",
     "eslint": "^6.6.0",
-    "nodemon": "^1.19.4"
+    "jest": "^24.9.0",
+    "nodemon": "^1.19.4",
+    "supertest": "^4.0.2"
   }
 }

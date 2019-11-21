@@ -51,4 +51,14 @@ describe("Values Route", () => {
       expect(Array.isArray(res.body)).toBe(true);
     });
   });
+
+  describe("GET /", () => {
+    test("returns 200 OK", async () => {
+      const res = await request(server)
+        .get("/api/value/3")
+        .set({ authorization: token });
+      expect(res.status).toBe(200);
+    });
+  });
+
 });

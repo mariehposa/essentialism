@@ -15,7 +15,9 @@ const testUserLogin = {
   username: "test",
   password: "test"
 };
+
 const testValue = { value_name: 'aValue'}
+
 beforeAll(async () => {
   await db("users").truncate();
   await db("values").truncate();
@@ -76,6 +78,15 @@ describe("Values Route", () => {
       .set({ authorization: token });
       console.log(res.body)
       expect(res.status).toBe(201)
+    })
+  })
+
+  describe('[GET] /', () => {
+    test('should return 200 0K', async () => {
+      const res = await request(server)
+      .get('/api/value/1/top3')
+      .set({ authorization: token })
+      expect(res.status).toBe(200)
     })
   })
 

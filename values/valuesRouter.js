@@ -29,7 +29,7 @@ router.get('/:id', (req, res) => {
     })
 })
 
-router.post('/:id/top', restricted, (req, res) => {
+router.post('/:id/top3', restricted, (req, res) => {
     const user_id = req.params.id
     const value_id = req.body.value_id
 
@@ -42,7 +42,7 @@ router.post('/:id/top', restricted, (req, res) => {
     .catch(err => res.status(500).json({message: `Failed to add value to top three: ${err.message}`, data: err, params: {user_id, value_id}}))
 })
 
-router.get('/:id/top', restricted, (req, res) => {
+router.get('/:id/top3', restricted, (req, res) => {
     const user_id = req.params.id
 
     db.getTopThree({ user_id })

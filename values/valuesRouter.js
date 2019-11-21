@@ -29,8 +29,8 @@ router.get('/:id', (req, res) => {
     })
 })
 
-router.post('/top', restricted, (req, res) => {
-    const user_id = req.decodedToken.subject
+router.post('/:id/top', restricted, (req, res) => {
+    const user_id = req.params.id
     const value_id = req.body.value_id
 
     db.addTopThree({user_id, value_id})
@@ -39,13 +39,11 @@ router.post('/top', restricted, (req, res) => {
             res.status(200).json({message: `Added value to top three`})
         }
     })
-    .catch(err => res.status(500).json({message: `Failed to add value to top three: ${err.message}`}))
+    .catch(err => res.status(500).json({message: `Failed to add value to top three: ${err.message}`, data: err, params: {user_id, value_id}}))
 })
 
-router.patch('/top', restricted, (req, res) => {
-    const user_id = req.decodedToken.subject
-
-    // res.send(200).json(user_id)
+router.get('/:id/top', restricted, (req, res) => {
+    const user_id = req.params.id
 
     db.getTopThree({ user_id })
     .then(top3 => {

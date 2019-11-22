@@ -17,8 +17,8 @@ function getUserProjects(user_id) {
 }
 
 function addProject(data) {
-    return db('projects as p')
-        .insert(data, 'p.id')
+    return db('projects')
+        .insert(data, 'id')
     .then(([id]) => this.getProjectId(id))
 }
 

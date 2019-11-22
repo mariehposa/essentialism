@@ -19,7 +19,7 @@ function getUserProjects(user_id) {
 function addProject(data) {
     return db('projects as p')
         .insert(data, 'p.id')
-    .where(([id]) => this.getProjectId(id))
+    .then(([id]) => this.getProjectId(id))
 }
 
 function updateProject(project_id, data) {
